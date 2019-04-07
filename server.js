@@ -58,26 +58,30 @@ function log() {
   }
 }
 
-app.get('/check',function(req,res){
+app.get('/check', function (req, res) {
   console.log("api strated");
   axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
-  .then(response => {    
-    res.send("success is called "+response.data.Model);
-  })
-  
+    .then(response => {
+      res.send("success is called " + response.data.Model);
+    })
+
 });
 
-app.post('/realpage', requestVerifier, function(req, res) {
+app.post('/realpage', requestVerifier, function (req, res) {
 
   if (req.body.request.type === 'LaunchRequest') {
-    res.json(getNewHero());
+    getNewHero().then(function (resp) {
+      res.json(resp);
+    })
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
     log("Session End")
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
       case 'AMAZON.YesIntent':
-        res.json(getNewHero());
+        getNewHero().then(function (resp) {
+          res.json(resp);
+        })
         break;
       case 'AMAZON.NoIntent':
         res.json(stopAndExit());
@@ -124,7 +128,7 @@ function getNewHero() {
   const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
   const speechText = welcomeSpeechOutput + tempOutput + MORE_MESSAGE
   const more = MORE_MESSAGE
-  
+
 
   return buildResponseWithRepromt(speechText, false, randomHero, more);
 
@@ -154,33 +158,33 @@ function buildResponse(speechText, shouldEndSession, cardText) {
 
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
   return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
-  .then(response => {    
-    const speechOutput = "<speak>" + response.data.Model + "</speak>"
-    var jsonObj = {
-      "version": "1.0",
-      "response": {
-        "shouldEndSession": shouldEndSession,
-        "outputSpeech": {
-          "type": "SSML",
-          "ssml": speechOutput
-        }
-      },
-      "card": {
-        "type": "Simple",
-        "title": SKILL_NAME,
-        "content": cardText,
-        "text": cardText
-      },
-      "reprompt": {
-        "outputSpeech": {
-          "type": "PlainText",
-          "text": reprompt,
-          "ssml": reprompt
-        }
-      },
-    }
-    return jsonObj
-  });
+    .then(response => {
+      const speechOutput = "<speak>" + response.data.Model + "</speak>"
+      var jsonObj = {
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": shouldEndSession,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": speechOutput
+          }
+        },
+        "card": {
+          "type": "Simple",
+          "title": SKILL_NAME,
+          "content": cardText,
+          "text": cardText
+        },
+        "reprompt": {
+          "outputSpeech": {
+            "type": "PlainText",
+            "text": reprompt,
+            "ssml": reprompt
+          }
+        },
+      }
+      return jsonObj
+    });
 
 }
 
