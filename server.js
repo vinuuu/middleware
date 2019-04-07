@@ -159,7 +159,7 @@ function buildResponse(speechText, shouldEndSession, cardText) {
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
   return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
     .then(response => {
-      const speechOutput = "<speak>" + response.data.Model + "</speak>"
+      const speechOutput = "<speak>" + speechText+" "+ response.data.Model + "</speak>"
       var jsonObj = {
         "version": "1.0",
         "response": {
