@@ -105,7 +105,7 @@ function help() {
 
 function getNewHero() {
 
-  var welcomeSpeechOutput = 'Welcome to Disney heroes<break time="0.3s" />'
+  var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
   if (!isFisrtTime) {
     welcomeSpeechOutput = '';
   }
@@ -114,9 +114,47 @@ function getNewHero() {
   const heroIndex = Math.floor(Math.random() * heroArr.length);
   const randomHero = heroArr[heroIndex];
   const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
-  const speechOutput = welcomeSpeechOutput + tempOutput + MORE_MESSAGE
+  const speechText = welcomeSpeechOutput + tempOutput + MORE_MESSAGE
   const more = MORE_MESSAGE
-
+  https.get('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent', (resp) => {
+    let data = '';
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+  
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      const speechOutput = "<speak>" + speechText + "</speak>"
+      var jsonObj = {
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": shouldEndSession,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": speechOutput
+          }
+        },
+        "card": {
+          "type": "Simple",
+          "title": SKILL_NAME,
+          "content": cardText,
+          "text": cardText
+        },
+        "reprompt": {
+          "outputSpeech": {
+            "type": "PlainText",
+            "text": data,
+            "ssml": data  
+          }
+        },
+      }
+      return jsonObj
+    });
+  
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
 
   return buildResponseWithRepromt(speechOutput, false, randomHero, more);
 
