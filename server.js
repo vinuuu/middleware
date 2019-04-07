@@ -57,7 +57,46 @@ function log() {
 }
 
 app.get('/check',function(req,res){
-    res.send('success');
+  https.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent', (resp) => {
+    let data = '';
+    // A chunk of data has been recieved.
+    resp.on('data', (chunk) => {
+      data += chunk;
+    });
+  
+    // The whole response has been received. Print out the result.
+    resp.on('end', () => {
+      const speechOutput = "<speak>" + speechText + "</speak>"
+      var jsonObj = {
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": shouldEndSession,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": speechOutput
+          }
+        },
+        "card": {
+          "type": "Simple",
+          "title": SKILL_NAME,
+          "content": cardText,
+          "text": cardText
+        },
+        "reprompt": {
+          "outputSpeech": {
+            "type": "PlainText",
+            "text": data,
+            "ssml": data  
+          }
+        },
+      }      
+      res.send('success api calling');
+    });
+  
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+  });
+    
 });
 
 app.post('/realpage', requestVerifier, function(req, res) {
@@ -117,45 +156,7 @@ function getNewHero() {
   const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
   const speechText = welcomeSpeechOutput + tempOutput + MORE_MESSAGE
   const more = MORE_MESSAGE
-  https.get('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent', (resp) => {
-    let data = '';
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
   
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      const speechOutput = "<speak>" + speechText + "</speak>"
-      var jsonObj = {
-        "version": "1.0",
-        "response": {
-          "shouldEndSession": shouldEndSession,
-          "outputSpeech": {
-            "type": "SSML",
-            "ssml": speechOutput
-          }
-        },
-        "card": {
-          "type": "Simple",
-          "title": SKILL_NAME,
-          "content": cardText,
-          "text": cardText
-        },
-        "reprompt": {
-          "outputSpeech": {
-            "type": "PlainText",
-            "text": data,
-            "ssml": data  
-          }
-        },
-      }
-      return jsonObj
-    });
-  
-  }).on("error", (err) => {
-    console.log("Error: " + err.message);
-  });
 
   return buildResponseWithRepromt(speechOutput, false, randomHero, more);
 
