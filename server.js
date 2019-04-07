@@ -1,4 +1,6 @@
 const https = require('https');
+const request = require('request');
+const axios = require('axios');
 let express = require('express'),
   bodyParser = require('body-parser'),
   port = process.env.PORT || 3000,
@@ -58,49 +60,12 @@ function log() {
 
 app.get('/check',function(req,res){
   console.log("api strated");
-  https.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent', (resp) => {
-    
-    let data = '';
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      data += chunk;
-    });
+  axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
+  .then(response => {
+    res.send(response);
+    // console.log(response.data);
+  })
   
-    // The whole response has been received. Print out the result.
-    console.log("api hitted");
-    resp.on('end', () => {
-      const speechOutput = "<speak>" + speechText + "</speak>"
-      var jsonObj = {
-        "version": "1.0",
-        "response": {
-          "shouldEndSession": shouldEndSession,
-          "outputSpeech": {
-            "type": "SSML",
-            "ssml": speechOutput
-          }
-        },
-        "card": {
-          "type": "Simple",
-          "title": SKILL_NAME,
-          "content": cardText,
-          "text": cardText
-        },
-        "reprompt": {
-          "outputSpeech": {
-            "type": "PlainText",
-            "text": data,
-            "ssml": data  
-          }
-        },
-      }      
-      res.send('success api calling');
-    });
-  
-  }).on("error", (err) => {
-    console.log("api is bad");
-    console.log("Error: " + err.message);
-  });
-    
 });
 
 app.post('/realpage', requestVerifier, function(req, res) {
