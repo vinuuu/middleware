@@ -79,6 +79,11 @@ app.post('/realpage', requestVerifier, function (req, res) {
     log("Session End")
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
+      case "GetMyRequests":
+      getNewHero().then(function (resp) {
+        res.json(resp);
+      })
+      break;
       case 'AMAZON.YesIntent':
         getNewHero().then(function (resp) {
           res.json(resp);
@@ -119,15 +124,15 @@ function help() {
 function getNewHero() {
 
   var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
-  if (!isFisrtTime) {
-    welcomeSpeechOutput = '';
-  }
+  // if (!isFisrtTime) {
+  //   welcomeSpeechOutput = '';
+  // }
 
   const heroArr = data;
   const heroIndex = Math.floor(Math.random() * heroArr.length);
   const randomHero = heroArr[heroIndex];
   const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
-  const speechText = welcomeSpeechOutput + tempOutput + MORE_MESSAGE
+  const speechText = welcomeSpeechOutput 
   const more = MORE_MESSAGE
 
 
@@ -160,7 +165,7 @@ function buildResponse(speechText, shouldEndSession, cardText) {
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
   return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
     .then(response => {
-      const speechOutput = "<speak>" + speechText+" "+ response.data.Model + "</speak>"
+      const speechOutput = "<speak>" + speechText+" "+ response.data.Model +""+MORE_MESSAGE+ "</speak>"
       var jsonObj = {
         "version": "1.0",
         "response": {
