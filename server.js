@@ -62,7 +62,7 @@ app.get('/check',function(req,res){
   console.log("api strated");
   axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
   .then(response => {    
-    res.send("success is called "+JSON.stringify(response));
+    res.send("success is called "+response.data.Model);
   })
   
 });
