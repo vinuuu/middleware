@@ -95,6 +95,9 @@ app.post('/realpage', requestVerifier, function (req, res) {
       case 'AMAZON.HelpIntent':
         res.json(help());
         break;
+        case 'AMAZON.StopIntent':
+        res.json(stopAndExit());
+        break;
       default:
 
     }
@@ -165,7 +168,7 @@ function buildResponse(speechText, shouldEndSession, cardText) {
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
   return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
     .then(response => {
-      const speechOutput = "<speak>" + speechText+" "+ response.data.Model +""+MORE_MESSAGE+ "</speak>"
+      const speechOutput = "<speak>" + speechText+" "+ response.data.Model + "</speak>"
       var jsonObj = {
         "version": "1.0",
         "response": {
