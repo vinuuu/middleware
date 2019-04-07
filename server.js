@@ -57,7 +57,9 @@ function log() {
 }
 
 app.get('/check',function(req,res){
+  console.log("api strated");
   https.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent', (resp) => {
+    
     let data = '';
     // A chunk of data has been recieved.
     resp.on('data', (chunk) => {
@@ -65,6 +67,7 @@ app.get('/check',function(req,res){
     });
   
     // The whole response has been received. Print out the result.
+    console.log("api hitted");
     resp.on('end', () => {
       const speechOutput = "<speak>" + speechText + "</speak>"
       var jsonObj = {
@@ -94,6 +97,7 @@ app.get('/check',function(req,res){
     });
   
   }).on("error", (err) => {
+    console.log("api is bad");
     console.log("Error: " + err.message);
   });
     
