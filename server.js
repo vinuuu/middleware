@@ -126,7 +126,7 @@ function getNewHero() {
   const more = MORE_MESSAGE
   
 
-  return buildResponseWithRepromt(speechOutput, false, randomHero, more);
+  return buildResponseWithRepromt(speechText, false, randomHero, more);
 
 }
 
@@ -180,8 +180,7 @@ function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprom
       },
     }
     return jsonObj
-  })
-
+  });
 }
 
 app.listen(port);
