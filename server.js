@@ -153,32 +153,35 @@ function buildResponse(speechText, shouldEndSession, cardText) {
 }
 
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
+  axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
+  .then(response => {    
+    const speechOutput = "<speak>" + response.data.Model + "</speak>"
+    var jsonObj = {
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": shouldEndSession,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": speechOutput
+        }
+      },
+      "card": {
+        "type": "Simple",
+        "title": SKILL_NAME,
+        "content": cardText,
+        "text": cardText
+      },
+      "reprompt": {
+        "outputSpeech": {
+          "type": "PlainText",
+          "text": reprompt,
+          "ssml": reprompt
+        }
+      },
+    }
+    return jsonObj
+  })
 
-  const speechOutput = "<speak>" + speechText + "</speak>"
-  var jsonObj = {
-    "version": "1.0",
-    "response": {
-      "shouldEndSession": shouldEndSession,
-      "outputSpeech": {
-        "type": "SSML",
-        "ssml": speechOutput
-      }
-    },
-    "card": {
-      "type": "Simple",
-      "title": SKILL_NAME,
-      "content": cardText,
-      "text": cardText
-    },
-    "reprompt": {
-      "outputSpeech": {
-        "type": "PlainText",
-        "text": reprompt,
-        "ssml": reprompt
-      }
-    },
-  }
-  return jsonObj
 }
 
 app.listen(port);
