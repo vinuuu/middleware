@@ -68,7 +68,7 @@ app.get('/check', function (req, res) {
 });
 
 app.post('/realpage', requestVerifier, function (req, res) {
-
+console.log(req.body.request);
   if (req.body.request.type === 'LaunchRequest') {
     getNewHero().then(function (resp) {
       res.json(resp);
