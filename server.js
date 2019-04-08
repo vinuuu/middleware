@@ -144,7 +144,7 @@ function getRenewals(){
       var jsonObj = {
         "version": "1.0",
         "response": {
-          "shouldEndSession": shouldEndSession,
+          "shouldEndSession": false,
           "outputSpeech": {
             "type": "SSML",
             "ssml": speechOutput
