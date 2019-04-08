@@ -15,7 +15,7 @@ const STOP_MESSAGE = 'Enjoy the day...Goodbye!';
 const MORE_MESSAGE = 'Do you want more?'
 const PAUSE = '<break time="0.3s" />'
 const WHISPER = '<amazon:effect name="whispered"/>'
-const welcomeText='Hello Johnson,Welcome to Real Page <break time="0.3s" /> how can i assit you';
+
 const data = [
   'Aladdin  ',
   'Cindrella ',
@@ -70,14 +70,17 @@ app.get('/check', function (req, res) {
 app.post('/realpage', requestVerifier, function (req, res) {
     console.log(req.body.request);
   if (req.body.request.type === 'LaunchRequest') {
-      res.json(lanchDatRequest());
+    log(req.body.request);
+    getNewHero().then(function (resp) {
+      res.json(resp);
+    })
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
     log("Session End")
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
-      case "GetRenewalDetails":
-      getRenewal().then(function (resp) {
+      case "GetMyRequests":
+      getNewHero().then(function (resp) {
         res.json(resp);
       })
       break;
@@ -93,19 +96,14 @@ app.post('/realpage', requestVerifier, function (req, res) {
         res.json(help());
         break;
         case 'AMAZON.StopIntent':
-        res.json(stopAndExit());
+          res.json(stopAndExit());
         break;
       default:
-      res.json(stopAndExit());
-      break;
+
     }
   }
 });
 
-
-function lanchDatRequest(){
-  return buildResponse(welcomeText,true,"");
-}
 function handleDataMissing() {
   return buildResponse(MISSING_DETAILS, true, null)
 }
@@ -126,7 +124,7 @@ function help() {
   return jsonObj;
 }
 
-function getRenewal() {
+function getNewHero() {
 
   var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
   // if (!isFisrtTime) {
@@ -141,7 +139,7 @@ function getRenewal() {
   const more = MORE_MESSAGE
 
 
-  return buildResponseWithRepromt(speechText, false, randomHero, more,'Renewal');
+  return buildResponseWithRepromt(speechText, false, randomHero, more);
 
 }
 
@@ -167,10 +165,10 @@ function buildResponse(speechText, shouldEndSession, cardText) {
   return jsonObj
 }
 
-function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt,param) {
-  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/'+param)
+function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
+  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
     .then(response => {
-      const speechOutput = "<speak>" +response.data.Model + "</speak>"
+      const speechOutput = "<speak>" + speechText+" "+ response.data.Model + "</speak>"
       var jsonObj = {
         "version": "1.0",
         "response": {
