@@ -138,7 +138,7 @@ function getRenewals(){
   const more = MORE_MESSAGE
 
 
-  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/renewals')
+  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/alexa/1/renewal')
     .then(response => {
       const speechOutput = "<speak>"+ response.data.Model + "</speak>"
       var jsonObj = {
