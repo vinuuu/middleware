@@ -93,6 +93,9 @@ app.post('/realpage', requestVerifier, function (req, res) {
       case "GetPropertyEminities":    
       res.json(propertyeminities());
       break;
+      case "GetBuildingHappeings":
+      res.json(GetBuildingHappeings());
+      break;
       case 'AMAZON.YesIntent':
         getNewHero().then(function (resp) {
           res.json(resp);
@@ -116,6 +119,11 @@ app.post('/realpage', requestVerifier, function (req, res) {
 });
 function propertyeminities (){
   const speechOutput = "Washer and Dryer , Air Conditioning, Washer and Dryer Hookups, Furniture,Patio,Hardwood,Floors, Dishwasher, Fireplace, Walk-in Closets, Wi-Fi";
+  var jsonObj = buildResponse(speechOutput, true, "");
+  return jsonObj;
+}
+function GetBuildingHappeings (){
+  const speechOutput = "Michella Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
   var jsonObj = buildResponse(speechOutput, true, "");
   return jsonObj;
 }
