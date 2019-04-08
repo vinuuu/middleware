@@ -77,7 +77,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
     })
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
-    log("Session End")
+    res.json(stopAndExit());
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
       case "GetRenewals":
@@ -90,7 +90,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
         res.json(resp);
       })
       break;
-      case "Getpropertyeminities":
+      case "GetPropertyEminities":
       propertyeminities().then(function (resp) {
         res.json(resp);
       })
@@ -110,6 +110,8 @@ app.post('/realpage', requestVerifier, function (req, res) {
           res.json(stopAndExit());
         break;
       default:
+        res.json(stopAndExit());
+      break;
 
     }
   }
