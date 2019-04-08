@@ -108,8 +108,12 @@ app.post('/realpage', requestVerifier, function (req, res) {
         case 'AMAZON.StopIntent':
           res.json(stopAndExit());
         break;
+        case 'AMAZON.FallbackIntent':
+          res.json(getFallBack());
+      break;
+      
       default:
-      res.json(help());
+        res.json(help());
       break;
 
     }
@@ -133,7 +137,11 @@ function GetBuildingHappeings (){
 function handleDataMissing() {
   return buildResponse(MISSING_DETAILS, true, null)
 }
-
+function getFallBack(){
+  const speechOutput = "sorry..I am still learning and I can't understand this query please rephrase it.";
+  var jsonObj = buildResponse(speechOutput, true, "");
+  return jsonObj;
+}
 function stopAndExit() {
 
   const speechOutput = STOP_MESSAGE
