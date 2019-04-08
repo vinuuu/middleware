@@ -71,7 +71,10 @@ app.get('/check', function (req, res) {
 app.post('/realpage', requestVerifier, function (req, res) {
     console.log(req.body.request);
   if (req.body.request.type === 'LaunchRequest') {
-    res.json(welcomeRequest());
+    log(req.body.request);
+    getNewHero().then(function (resp) {
+      res.json(resp);
+    })
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
     res.json(stopAndExit());
@@ -108,7 +111,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
           res.json(stopAndExit());
         break;
       default:
-        res.json(stopAndExit());
+      res.json(help());
       break;
 
     }
@@ -124,8 +127,8 @@ function GetBuildingHappeings (){
   var jsonObj = buildResponse(speechOutput, true, "");
   return jsonObj;
 }
-function welcomeRequest (){
-  const speechOutput = 'Hello Johnson,Welcome to Real Page <break time="0.3s" /> we are anxious to help you';
+function GetBuildingHappeings (){
+  const speechOutput = "Michella Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
   var jsonObj = buildResponse(speechOutput, true, "");
   return jsonObj;
 }
@@ -212,9 +215,8 @@ function getNewHero() {
 }
 
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
-  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
-    .then(response => {
-      const speechOutput = "<speak>" + speechText+" "+ response.data.Model + "</speak>"
+      const speechText= "Hello Johnson,Welcome to Real Page we are anxious to help you"
+      const speechOutput = "<speak>" + speechText +"</speak>"
       var jsonObj = {
         "version": "1.0",
         "response": {
@@ -238,9 +240,7 @@ function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprom
           }
         },
       }
-      return jsonObj
-    });
-
+      return jsonObj;
 }
 
 app.listen(port);
