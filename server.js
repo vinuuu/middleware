@@ -81,9 +81,14 @@ app.post('/realpage', requestVerifier, function (req, res) {
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
       case "GetRenewals":
-      getRenewals().then(function (resp) {
+      getRenewals('renewal').then(function (resp) {
         res.json(resp);
-      })
+      }).listen()
+      break;
+      case "GetSerivceRequest":
+      getRenewals('recent servicerequest status').then(function (resp) {
+        res.json(resp);
+      }).listen()
       break;
       case 'AMAZON.YesIntent':
         getNewHero().then(function (resp) {
@@ -147,8 +152,8 @@ function buildResponse(speechText, shouldEndSession, cardText) {
   return jsonObj
 }
 
-function getRenewals(){ 
-  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/alexa/1/renewal')
+function getRenewals(param){ 
+  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/alexa/1/'+param)
     .then(response => {
       const speechOutput = "<speak>"+ response.data.Model + "</speak>"
       var jsonObj = {
