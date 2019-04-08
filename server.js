@@ -90,6 +90,9 @@ app.post('/realpage', requestVerifier, function (req, res) {
         res.json(resp);
       });
       break;
+      case "Getpropertyeminities":
+      res.json(propertyeminities());
+      break;
       case 'AMAZON.YesIntent':
         getNewHero().then(function (resp) {
           res.json(resp);
@@ -121,6 +124,12 @@ function stopAndExit() {
   return jsonObj;
 }
 
+
+function propertyeminities (){
+  const speechOutput = "Washer and Dryer , Air Conditioning, Washer and Dryer Hookups, Furniture,Patio,Hardwood,Floors, Dishwasher, Fireplace, Walk-in Closets, Wi-Fi";
+  var jsonObj = buildResponse(speechOutput, true, "");
+  return jsonObj;
+}
 function help() {
 
   const speechOutput = HELP_MESSAGE
