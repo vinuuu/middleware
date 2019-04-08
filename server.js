@@ -88,6 +88,11 @@ app.post('/realpage', requestVerifier, function (req, res) {
         res.json(resp);
       })
       break;
+      case "GetRentAmount":
+      getRenewals('rent').then(function (resp) {
+        res.json(resp);
+      })
+      break;
       case "GetPropertyEminities":    
       res.json(propertyeminities());
       break;
