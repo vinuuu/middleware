@@ -90,6 +90,11 @@ app.post('/realpage', requestVerifier, function (req, res) {
         res.json(resp);
       })
       break;
+      case "Getpropertyeminities":
+      propertyeminities().then(function (resp) {
+        res.json(resp);
+      })
+      break;
       case 'AMAZON.YesIntent':
         getNewHero().then(function (resp) {
           res.json(resp);
@@ -109,7 +114,11 @@ app.post('/realpage', requestVerifier, function (req, res) {
     }
   }
 });
-
+function propertyeminities (){
+  const speechOutput = "Washer and Dryer , Air Conditioning, Washer and Dryer Hookups, Furniture,Patio,Hardwood,Floors, Dishwasher, Fireplace, Walk-in Closets, Wi-Fi";
+  var jsonObj = buildResponse(speechOutput, true, "");
+  return jsonObj;
+}
 function handleDataMissing() {
   return buildResponse(MISSING_DETAILS, true, null)
 }
