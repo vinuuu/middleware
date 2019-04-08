@@ -11,6 +11,7 @@ const SKILL_NAME = 'Real Page';
 const GET_HERO_MESSAGE = "Here's your hero: ";
 const HELP_MESSAGE = 'You can say please fetch me a hero, or, you can say exit... What can I help you with?';
 const HELP_REPROMPT = 'What can I help you with?';
+const reprompt="Do you want more?"
 const STOP_MESSAGE = 'Enjoy the day...Goodbye!';
 const MORE_MESSAGE = 'Do you want more?'
 const PAUSE = '<break time="0.3s" />'
@@ -124,68 +125,6 @@ function help() {
   return jsonObj;
 }
 
-function getRenewals(){
-  var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
-  // if (!isFisrtTime) {
-  //   welcomeSpeechOutput = '';
-  // }
-
-  const heroArr = data;
-  const heroIndex = Math.floor(Math.random() * heroArr.length);
-  const randomHero = heroArr[heroIndex];
-  const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
-  const speechText = welcomeSpeechOutput 
-  const more = MORE_MESSAGE
-
-
-  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/alexa/1/renewal')
-    .then(response => {
-      const speechOutput = "<speak>"+ response.data.Model + "</speak>"
-      var jsonObj = {
-        "version": "1.0",
-        "response": {
-          "shouldEndSession": false,
-          "outputSpeech": {
-            "type": "SSML",
-            "ssml": speechOutput
-          }
-        },
-        "card": {
-          "type": "Simple",
-          "title": SKILL_NAME,
-          "content": cardText,
-          "text": cardText
-        },
-        "reprompt": {
-          "outputSpeech": {
-            "type": "PlainText",
-            "text": reprompt,
-            "ssml": reprompt
-          }
-        },
-      }
-      return jsonObj
-    });
-}
-function getNewHero() {
-
-  var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
-  // if (!isFisrtTime) {
-  //   welcomeSpeechOutput = '';
-  // }
-
-  const heroArr = data;
-  const heroIndex = Math.floor(Math.random() * heroArr.length);
-  const randomHero = heroArr[heroIndex];
-  const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
-  const speechText = welcomeSpeechOutput 
-  const more = MORE_MESSAGE
-
-
-  return buildResponseWithRepromt(speechText, false, randomHero, more);
-
-}
-
 function buildResponse(speechText, shouldEndSession, cardText) {
 
   const speechOutput = "<speak>" + speechText + "</speak>"
@@ -206,6 +145,46 @@ function buildResponse(speechText, shouldEndSession, cardText) {
     },
   }
   return jsonObj
+}
+
+function getRenewals(){ 
+  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/alexa/1/renewal')
+    .then(response => {
+      const speechOutput = "<speak>"+ response.data.Model + "</speak>"
+      var jsonObj = {
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": false,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": speechOutput
+          }
+        },     
+
+        "reprompt": {
+          "outputSpeech": {
+            "type": "PlainText",
+            "text": reprompt,
+            "ssml": reprompt
+          }
+        },
+      }
+      return jsonObj
+    });
+}
+function getNewHero() {
+
+  var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'  
+  const heroArr = data;
+  const heroIndex = Math.floor(Math.random() * heroArr.length);
+  const randomHero = heroArr[heroIndex];
+  const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
+  const speechText = welcomeSpeechOutput 
+  const more = MORE_MESSAGE
+
+
+  return buildResponseWithRepromt(speechText, false, randomHero, more);
+
 }
 
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
