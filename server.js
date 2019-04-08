@@ -90,10 +90,8 @@ app.post('/realpage', requestVerifier, function (req, res) {
         res.json(resp);
       })
       break;
-      case "GetPropertyEminities":
-      propertyeminities().then(function (resp) {
-        res.json(resp);
-      })
+      case "GetPropertyEminities":    
+      res.json(propertyeminities());
       break;
       case 'AMAZON.YesIntent':
         getNewHero().then(function (resp) {
