@@ -72,9 +72,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
     console.log(req.body.request);
   if (req.body.request.type === 'LaunchRequest') {
     log(req.body.request);
-    getNewHero().then(function (resp) {
-      res.json(resp);
-    })
+    res.json(getNewHero());
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
     res.json(stopAndExit());
