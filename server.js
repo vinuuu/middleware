@@ -96,7 +96,8 @@ app.post('/realpage', requestVerifier, function (req, res) {
         res.json(stopAndExit());
         break;
       default:
-
+      res.json(stopAndExit());
+      break;
     }
   }
 });
