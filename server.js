@@ -173,6 +173,13 @@ function buildResponse(speechText, shouldEndSession, cardText) {
       "content": cardText,
       "text": cardText
     },
+    "reprompt": {
+      "outputSpeech": {
+        "type": "PlainText",
+        "text": reprompt,
+        "ssml": reprompt
+      }
+    },
   }
   return jsonObj
 }
