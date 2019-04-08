@@ -71,10 +71,7 @@ app.get('/check', function (req, res) {
 app.post('/realpage', requestVerifier, function (req, res) {
     console.log(req.body.request);
   if (req.body.request.type === 'LaunchRequest') {
-    log(req.body.request);
-    getNewHero().then(function (resp) {
-      res.json(resp);
-    })
+    res.json(welcomeRequest());
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
     res.json(stopAndExit());
@@ -124,6 +121,11 @@ function propertyeminities (){
 }
 function GetBuildingHappeings (){
   const speechOutput = "Michella Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
+  var jsonObj = buildResponse(speechOutput, true, "");
+  return jsonObj;
+}
+function welcomeRequest (){
+  const speechOutput = 'Hello Johnson,Welcome to Real Page <break time="0.3s" /> we are anxious to help you';
   var jsonObj = buildResponse(speechOutput, true, "");
   return jsonObj;
 }
