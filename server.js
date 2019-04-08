@@ -79,7 +79,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
     log("Session End")
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
-      case "GetMyRequests":
+      case "GetRenewals":
       getNewHero().then(function (resp) {
         res.json(resp);
       })
