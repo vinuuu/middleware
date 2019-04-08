@@ -111,9 +111,9 @@ app.post('/realpage', requestVerifier, function (req, res) {
         case 'AMAZON.StopIntent':
           res.json(stopAndExit());
         break;
-        case 'AMAZON.FallbackIntent':
-          res.json(getFallBack());
-       break;      
+      //   case 'AMAZON.FallbackIntent':
+      //     res.json(getFallBack());
+      //  break;      
       default:
            res.json(help());
       break;
