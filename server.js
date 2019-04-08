@@ -70,7 +70,7 @@ app.get('/check', function (req, res) {
 app.post('/realpage', requestVerifier, function (req, res) {
     console.log(req.body.request);
   if (req.body.request.type === 'LaunchRequest') {
-      res.json(lanchDataRequest());
+      res.json(lanchDatRequest());
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
     log("Session End")
@@ -103,7 +103,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
 });
 
 
-function lanchDataRequest(){
+function lanchDatRequest(){
   return buildResponse(welcomeText,true,"");
 }
 function handleDataMissing() {
