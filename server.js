@@ -215,7 +215,7 @@ function getNewHero() {
 }
 
 function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
-      const speechText= "Hello Johnson,Welcome to Real Page we are anxious to help you"
+       speechText= "Hello Johnson,Welcome to Real Page we are anxious to help you"
       const speechOutput = "<speak>" + speechText +"</speak>"
       var jsonObj = {
         "version": "1.0",
