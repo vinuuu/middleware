@@ -83,12 +83,12 @@ app.post('/realpage', requestVerifier, function (req, res) {
       case "GetRenewals":
       getRenewals('renewal').then(function (resp) {
         res.json(resp);
-      }).listen()
+      });
       break;
       case "GetSerivceRequest":
       getRenewals('recent servicerequest status').then(function (resp) {
         res.json(resp);
-      }).listen()
+      });
       break;
       case 'AMAZON.YesIntent':
         getNewHero().then(function (resp) {
