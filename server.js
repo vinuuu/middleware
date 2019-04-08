@@ -80,7 +80,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
       case "GetRenewals":
-      getNewHero().then(function (resp) {
+      getRenewals().then(function (resp) {
         res.json(resp);
       })
       break;
@@ -124,6 +124,49 @@ function help() {
   return jsonObj;
 }
 
+function getRenewals(){
+  var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
+  // if (!isFisrtTime) {
+  //   welcomeSpeechOutput = '';
+  // }
+
+  const heroArr = data;
+  const heroIndex = Math.floor(Math.random() * heroArr.length);
+  const randomHero = heroArr[heroIndex];
+  const tempOutput = WHISPER + GET_HERO_MESSAGE + randomHero + PAUSE;
+  const speechText = welcomeSpeechOutput 
+  const more = MORE_MESSAGE
+
+
+  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/renewals')
+    .then(response => {
+      const speechOutput = "<speak>"+ response.data.Model + "</speak>"
+      var jsonObj = {
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": shouldEndSession,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": speechOutput
+          }
+        },
+        "card": {
+          "type": "Simple",
+          "title": SKILL_NAME,
+          "content": cardText,
+          "text": cardText
+        },
+        "reprompt": {
+          "outputSpeech": {
+            "type": "PlainText",
+            "text": reprompt,
+            "ssml": reprompt
+          }
+        },
+      }
+      return jsonObj
+    });
+}
 function getNewHero() {
 
   var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
