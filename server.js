@@ -15,7 +15,7 @@ const STOP_MESSAGE = 'Enjoy the day...Goodbye!';
 const MORE_MESSAGE = 'Do you want more?'
 const PAUSE = '<break time="0.3s" />'
 const WHISPER = '<amazon:effect name="whispered"/>'
-
+const welcomeText='Hello Johnson,Welcome to Real Page <break time="0.3s" /> how can i assit you';
 const data = [
   'Aladdin  ',
   'Cindrella ',
@@ -70,17 +70,14 @@ app.get('/check', function (req, res) {
 app.post('/realpage', requestVerifier, function (req, res) {
     console.log(req.body.request);
   if (req.body.request.type === 'LaunchRequest') {
-    log(req.body.request);
-    getNewHero().then(function (resp) {
-      res.json(resp);
-    })
+      res.json(lanchDataRequest());
     isFisrtTime = false
   } else if (req.body.request.type === 'SessionEndedRequest') { /* ... */
     log("Session End")
   } else if (req.body.request.type === 'IntentRequest') {
     switch (req.body.request.intent.name) {
-      case "GetMyRequests":
-      getNewHero().then(function (resp) {
+      case "GetRenewalDetails":
+      getRenewal().then(function (resp) {
         res.json(resp);
       })
       break;
@@ -104,6 +101,10 @@ app.post('/realpage', requestVerifier, function (req, res) {
   }
 });
 
+
+function lanchDataRequest(){
+  return buildResponse(welcomeText,true,"");
+}
 function handleDataMissing() {
   return buildResponse(MISSING_DETAILS, true, null)
 }
@@ -124,7 +125,7 @@ function help() {
   return jsonObj;
 }
 
-function getNewHero() {
+function getRenewal() {
 
   var welcomeSpeechOutput = 'Welcome to Real Page <break time="0.3s" />'
   // if (!isFisrtTime) {
@@ -139,7 +140,7 @@ function getNewHero() {
   const more = MORE_MESSAGE
 
 
-  return buildResponseWithRepromt(speechText, false, randomHero, more);
+  return buildResponseWithRepromt(speechText, false, randomHero, more,'Renewal');
 
 }
 
@@ -165,10 +166,10 @@ function buildResponse(speechText, shouldEndSession, cardText) {
   return jsonObj
 }
 
-function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt) {
-  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/rent')
+function buildResponseWithRepromt(speechText, shouldEndSession, cardText, reprompt,param) {
+  return axios.post('https://qa-books.asseteye.net/RPHackathon/V1/ChatBot/1/'+param)
     .then(response => {
-      const speechOutput = "<speak>" + speechText+" "+ response.data.Model + "</speak>"
+      const speechOutput = "<speak>" +response.data.Model + "</speak>"
       var jsonObj = {
         "version": "1.0",
         "response": {
