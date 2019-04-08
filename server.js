@@ -118,25 +118,25 @@ app.post('/realpage', requestVerifier, function (req, res) {
 });
 function propertyeminities (){
   const speechOutput = "Here are Top 10 Property Amenities Washer and Dryer , Air Conditioning, Washer and Dryer Hookups, Furniture,Patio,Hardwood,Floors, Dishwasher, Fireplace, Walk-in Closets, Wi-Fi";
-  var jsonObj = buildResponse(speechOutput, true, "");
+  var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
 function GetBuildingHappeings (){
   const speechOutput = "Michella Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
-  var jsonObj = buildResponse(speechOutput, true, "");
+  var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
 function GetBuildingHappeings (){
   const speechOutput = "Michella Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
-  var jsonObj = buildResponse(speechOutput, true, "");
+  var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
 function handleDataMissing() {
-  return buildResponse(MISSING_DETAILS, true, null)
+  return buildResponse(MISSING_DETAILS, false, null)
 }
 function getFallBack(){
   const speechOutput = "sorry..I am still learning and I can't understand this query please rephrase it.";
-  var jsonObj = buildResponse(speechOutput, true, "");
+  var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
 function stopAndExit() {
