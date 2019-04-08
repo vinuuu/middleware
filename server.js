@@ -95,9 +95,7 @@ app.post('/realpage', requestVerifier, function (req, res) {
       res.json(GetBuildingHappeings());
       break;
       case 'AMAZON.YesIntent':
-        getNewHero().then(function (resp) {
-          res.json(resp);
-        })
+        res.json(help());
         break;
       case 'AMAZON.NoIntent':
         res.json(stopAndExit());
@@ -110,17 +108,16 @@ app.post('/realpage', requestVerifier, function (req, res) {
         break;
         case 'AMAZON.FallbackIntent':
           res.json(getFallBack());
-      break;
-      
+       break;      
       default:
-        res.json(help());
+           res.json(help());
       break;
 
     }
   }
 });
 function propertyeminities (){
-  const speechOutput = "Washer and Dryer , Air Conditioning, Washer and Dryer Hookups, Furniture,Patio,Hardwood,Floors, Dishwasher, Fireplace, Walk-in Closets, Wi-Fi";
+  const speechOutput = "Here are Top 10 Property Amenities Washer and Dryer , Air Conditioning, Washer and Dryer Hookups, Furniture,Patio,Hardwood,Floors, Dishwasher, Fireplace, Walk-in Closets, Wi-Fi";
   var jsonObj = buildResponse(speechOutput, true, "");
   return jsonObj;
 }
