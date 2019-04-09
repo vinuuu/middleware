@@ -130,12 +130,12 @@ function propertyeminities (){
   return jsonObj;
 }
 function GetBuildingHappeings (){
-  const speechOutput = "Michella Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
+  const speechOutput = "Michelle Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
   var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
 function GetRealPageUpdates (){
-  const speechOutput = "RealWorld 2019,In 2019 RealWorld will be heading to Florida! Book your place now for what promises to be the buggest RealWorld ever ! happeing on July 21 to July 23 ,Florida Visit www.Realpage.com for registration";
+  const speechOutput = "RealWorld 2019,In 2019 RealWorld will be heading to Florida! Book your place now for what promises to be the biggest RealWorld ever ! happeing on July 21 to July 23 ,Florida Visit www.Realpage.com for registration";
   var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
