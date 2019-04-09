@@ -11,9 +11,9 @@ const SKILL_NAME = 'Real Page';
 const GET_HERO_MESSAGE = "Here's your hero: ";
 const HELP_MESSAGE = 'You can say please fetch me a hero, or, you can say exit... What can I help you with?';
 const HELP_REPROMPT = 'What can I help you with?';
-const reprompt="Do you want more?"
+const reprompt="What can I help you with?"
 const STOP_MESSAGE = 'Enjoy the day...Goodbye!';
-const MORE_MESSAGE = 'Do you want more?'
+const MORE_MESSAGE = 'What can I help you with?'
 const PAUSE = '<break time="0.3s" />'
 const WHISPER = '<amazon:effect name="whispered"/>'
 
@@ -99,6 +99,9 @@ app.post('/realpage', requestVerifier, function (req, res) {
       case "GetBuildingHappeings":
       res.json(GetBuildingHappeings());
       break;
+      case "GetRealPageUpdates":
+      res.json(GetRealPageUpdates());
+      break;
       case 'AMAZON.YesIntent':
         res.json(help());
         break;
@@ -131,8 +134,8 @@ function GetBuildingHappeings (){
   var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
-function GetBuildingHappeings (){
-  const speechOutput = "Michella Birthday party at Today 6.30PM follwing by Dinner in Peter's Home";
+function GetRealPageUpdates (){
+  const speechOutput = "RealWorld 2019,In 2019 RealWorld will be heading to Florida! Book your place now for what promises to be the buggest RealWorld ever ! happeing on July 21 to July 23 ,Florida Visit www.Realpage.com for registration";
   var jsonObj = buildResponse(speechOutput, false, "");
   return jsonObj;
 }
